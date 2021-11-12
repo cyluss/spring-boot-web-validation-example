@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.List;
 
 @SpringBootApplication
@@ -54,7 +52,7 @@ public class DemoApplication {
 		String baz;
 
 		@NotNull(message = "xyz is required") // implies required: true, nullable: false
-		Boolean xyz;
+		Boolean xyz; // NOT boolean -- null is SILENTLY converted to false
 
 		@ArraySchema(schema = @Schema(nullable = true)) // required: false by default
 		@Valid // activates element type validation -- ex) NO [{}]
