@@ -10,7 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -121,13 +126,13 @@ public class DemoApplication {
 
 	@ExceptionHandler(value = {MethodArgumentNotValidException.class}) // invoked when exception is thrown within the class
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public void inputError(MethodArgumentNotValidException e) {
+	public void onInputValidationError(MethodArgumentNotValidException e) {
 		System.out.println(e.getAllErrors());
 	}
 
 	@ExceptionHandler(value = {ConstraintViolationException.class}) // invoked when exception is thrown within the class
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public void outputError(ConstraintViolationException e) {
+	public void onOutputValidationError(ConstraintViolationException e) {
 		System.out.println(e.getConstraintViolations());
 	}
 
