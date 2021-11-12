@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -18,12 +21,76 @@ import javax.validation.constraints.NotNull;
 @Validated // activates method parameter & return validation
 @Tag(name="DemoApp") // openapi controller name
 public class DemoApplication {
-	public static class Message {
-		@NotNull(message = "required") // implies required: true, nullable: false
-		String foo;
+	public enum MessageEnum {
+		REGULAR("REGULAR", "Regular"),
+		BOLD("BOLD", "Bold"),
+		ITALIC("ITALIC", "Italic");
 
-		public String getFoo() {
+		String code;
+		String description;
+
+		MessageEnum(String code, String description) {
+			this.code = code;
+			this.description = description;
+		}
+	}
+	public static class Message {
+		@NotNull(message = "foo is required") // implies required: true, nullable: false
+		Integer foo; // NOT int -- null is SILENTLY converted to 0
+
+		@NotNull(message = "message enum is required") // implies required: true, nullable: false
+		MessageEnum messageEnum;
+
+		@NotNull(message = "bar is required") // implies required: true, nullable: false
+		String bar;
+
+		@NotNull(message = "baz is required") // implies required: true, nullable: false
+		@NotBlank // requires baz.length > 0
+		String baz;
+
+		@NotNull(message = "xyz is required") // implies required: true, nullable: false
+		Boolean xyz;
+
+		@Null // implies required: false
+		List<Spam> spams;
+
+		public Integer getFoo() {
 			return foo;
+		}
+
+		public MessageEnum getMessageEnum() {
+			return messageEnum;
+		}
+
+		public String getBar() {
+			return bar;
+		}
+
+		public String getBaz() {
+			return baz;
+		}
+
+		public Boolean getXyz() { // NOT isXyz -- some openapi generators does NOT support isXXX method
+			return xyz;
+		}
+
+		public List<Spam> getSpams() {
+			return spams;
+		}
+	}
+
+	public static class Spam {
+		@NotNull
+		Integer spamHam;
+		@NotNull
+		String spamEgg;
+
+		public Integer getSpamHam() {
+			return spamHam;
+		}
+
+		public String getSpamEgg() {
+			return spamEgg;
 		}
 	}
 
