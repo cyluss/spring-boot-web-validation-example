@@ -124,13 +124,13 @@ public class DemoApplication {
 		return message;
 	}
 
-	@ExceptionHandler(value = {MethodArgumentNotValidException.class}) // invoked when exception is thrown within the class
+	@ExceptionHandler(value = {MethodArgumentNotValidException.class}) // invoked when the specified exception is thrown within the class
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public void onInputValidationError(MethodArgumentNotValidException e) {
 		System.out.println(e.getAllErrors());
 	}
 
-	@ExceptionHandler(value = {ConstraintViolationException.class}) // invoked when exception is thrown within the class
+	@ExceptionHandler(value = {ConstraintViolationException.class}) // invoked when the specified exception is thrown within the class
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public void onOutputValidationError(ConstraintViolationException e) {
 		System.out.println(e.getConstraintViolations());
