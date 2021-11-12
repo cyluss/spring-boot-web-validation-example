@@ -26,7 +26,7 @@ import java.util.List;
 @SpringBootApplication
 @RestController
 @RestControllerAdvice // activates ExceptionHandler
-@Validated // activates method parameter & return validation
+@Validated // required by method parameter & return validation
 @Tag(name="DemoApp") // openapi controller name
 public class DemoApplication {
 	public enum MessageEnum {
