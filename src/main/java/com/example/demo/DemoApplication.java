@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
@@ -55,8 +56,9 @@ public class DemoApplication {
 		@NotNull(message = "xyz is required") // implies required: true, nullable: false
 		Boolean xyz;
 
-		@Schema(description = "spams is optional", nullable = true) // required: false (by default)
-		List<Spam> spams;
+		@ArraySchema(schema = @Schema(nullable = true)) // required: false by default
+		@Valid // activates element type validation -- ex) NO [{}]
+		List<@NotNull Spam> spams; // requires NO null in list -- ex) NO [null]
 
 		@Hidden // exclude from openapi schema
 		@JsonIgnore // exclude from JSON serialization / deserialization
