@@ -55,7 +55,7 @@ public class DemoApplication {
 		@NotNull(message = "xyz is required") // implies required: true, nullable: false
 		Boolean xyz;
 
-		@Schema(description = "xyz is optional", nullable = true) // required: false (by default)
+		@Schema(description = "spams is optional", nullable = true) // required: false (by default)
 		List<Spam> spams;
 
 		@Hidden // exclude from openapi schema
