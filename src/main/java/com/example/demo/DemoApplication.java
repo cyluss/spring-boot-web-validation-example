@@ -106,10 +106,10 @@ public class DemoApplication {
 		}
 	}
 
-	@Valid // if invalid: throws ConstraintViolationException
+	@Valid // activates return validation. If return is invalid, throws ConstraintViolationException
 	@PostMapping("/")
 	public Message getMessage(
-			@Valid // if invalid: throws MethodArgumentNotValidException
+			@Valid // activates parameter validation. If parameter is invalid, throws MethodArgumentNotValidException
 			@RequestBody Message message) {
 		System.out.println(message.getQux());
 		if (message.qux == null) {
