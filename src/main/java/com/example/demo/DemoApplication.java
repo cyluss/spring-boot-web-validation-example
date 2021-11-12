@@ -1,9 +1,13 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +55,12 @@ public class DemoApplication {
 		@NotNull(message = "xyz is required") // implies required: true, nullable: false
 		Boolean xyz;
 
-		@Null // implies required: false
+		@Schema(description = "xyz is optional", nullable = true) // required: false (by default)
 		List<Spam> spams;
+
+		@Hidden // exclude from openapi schema
+		@JsonIgnore // exclude from JSON serialization / deserialization
+		String qux;
 
 		public Integer getFoo() {
 			return foo;
@@ -77,6 +85,10 @@ public class DemoApplication {
 		public List<Spam> getSpams() {
 			return spams;
 		}
+
+		public String getQux() {
+			return qux;
+		}
 	}
 
 	public static class Spam {
@@ -99,6 +111,11 @@ public class DemoApplication {
 	public Message getMessage(
 			@Valid // if invalid: throws MethodArgumentNotValidException
 			@RequestBody Message message) {
+		System.out.println(message.getQux());
+		if (message.qux == null) {
+			message.qux = "";
+		}
+		System.out.println(message.getQux());
 		return message;
 	}
 
